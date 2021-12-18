@@ -1,0 +1,22 @@
+﻿@page "/"
+@inject User user
+@inject HttpClient http
+
+<div class="row m-0 p-5">
+    @for (int i = 1; i <= 30; i++)
+    {
+        <div class="col p-0 m-1" style="cursor:pointer">
+            <div class="poster" >
+            </div>
+            <div class="title mt-1">
+                <label>Los Piratas del Caribe: La maldicon del perla negra</label>
+            </div>
+        </div>
+
+    }
+</div>
+
+@code {
+
+    }
+

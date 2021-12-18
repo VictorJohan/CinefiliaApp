@@ -1,0 +1,11 @@
+﻿namespace CinefiliaApp.Models
+{
+    public class Genres
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string NameNoSpace { get {
+                return Name.Replace(" ", "");
+            } set {; } }
+    }
+}

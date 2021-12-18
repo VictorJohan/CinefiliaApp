@@ -1,0 +1,33 @@
+﻿@page "/generos"
+@inject User user
+@inject HttpClient http
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    @foreach (var genres in listGenres)
+    {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="@genres.NameNoSpace-tab" data-bs-toggle="tab" data-bs-target="#@genres.NameNoSpace" type="button" role="tab" aria-controls="@genres.NameNoSpace" aria-selected="false">@genres.Name</button>
+        </li>
+    }
+</ul>
+<div class="tab-content" id="myTabContent">
+    @foreach (var genres in listGenres)
+    {
+        <div class="tab-pane fade" id="@genres.NameNoSpace" role="tabpanel" aria-labelledby="@genres.NameNoSpace-tab">Esta es la categoria de @genres.Name</div>
+
+    }
+</div>
+
+@code {
+
+    private GenderBLL genderBLL;
+    List<Genres> listGenres;
+    protected override async Task OnInitializedAsync()
+    {
+        listGenres = new();
+        genderBLL = new GenderBLL(http, user.Language);
+
+        listGenres = await genderBLL.GetListAsync();
+
+    }
+}
