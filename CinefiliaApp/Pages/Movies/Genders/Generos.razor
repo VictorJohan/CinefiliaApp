@@ -1,33 +1,93 @@
 ﻿@page "/generos"
 @inject User user
 @inject HttpClient http
-
+<a id="genre"></a>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     @foreach (var genres in listGenres)
     {
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="@genres.NameNoSpace-tab" data-bs-toggle="tab" data-bs-target="#@genres.NameNoSpace" type="button" role="tab" aria-controls="@genres.NameNoSpace" aria-selected="false">@genres.Name</button>
+            <button class="nav-link" id="@genres.NameNoSpace-tab" data-bs-toggle="tab" data-bs-target="#@genres.NameNoSpace" type="button" role="tab" @onclick="(() => Find(genres.Id))" aria-controls="@genres.NameNoSpace" aria-selected="false">@genres.Name</button>
         </li>
     }
 </ul>
 <div class="tab-content" id="myTabContent">
+    
     @foreach (var genres in listGenres)
     {
-        <div class="tab-pane fade" id="@genres.NameNoSpace" role="tabpanel" aria-labelledby="@genres.NameNoSpace-tab">Esta es la categoria de @genres.Name</div>
+        <div class="tab-pane fade" id="@genres.NameNoSpace" role="tabpanel" aria-labelledby="@genres.NameNoSpace-tab"><TemplatePage Movie_Page="@moviePage"/></div>
 
     }
 </div>
 
+@if (moviePage.Results.Count > 0)
+{
+    <div class="col w-100 m-0 text-center">
+    <a class="btn btn-outline-success" href="/generos/#genre" @onclick="Previous">Anterior</a>
+    <input type="number" style="width:50px" @onkeyup="Enter" @bind="numberPage" />
+    <label>/500</label>
+    <a class="btn btn-outline-success"  href="/generos/#genre" @onclick="Next">Siguiente</a>
+</div>
+}
+
 @code {
 
     private GenderBLL genderBLL;
+    private MoviePageBLL moviePageBLL;
     List<Genres> listGenres;
+    MoviePage moviePage;
+    private int genreId;
+    private int numberPage;
     protected override async Task OnInitializedAsync()
     {
+       
         listGenres = new();
+        moviePage = new();
+        moviePageBLL = new MoviePageBLL(http, user.Language);
         genderBLL = new GenderBLL(http, user.Language);
 
         listGenres = await genderBLL.GetListAsync();
+
+    }
+
+    private async Task Find(int genreId)
+    {
+        numberPage = 1;
+        this.genreId = genreId; 
+        moviePage = await moviePageBLL.GetMoviesByPageAndGenre(numberPage, genreId);
+    }
+
+    private async Task Previous()
+    {
+        if((numberPage - 1) >= 1)
+        {
+            numberPage--;
+            moviePage = await moviePageBLL.GetMoviesByPageAndGenre(numberPage, genreId);
+        }
+
+    }
+
+     private async Task Next()
+    {
+        if((numberPage + 1) <= 500)
+        {
+            numberPage++;
+            moviePage = await moviePageBLL.GetMoviesByPageAndGenre(numberPage, genreId);
+        }
+
+    }
+
+     public async Task Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            if (numberPage > 0 && numberPage <= 500)
+            {
+                moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+                StateHasChanged();
+            }
+
+
+        }
 
     }
 }

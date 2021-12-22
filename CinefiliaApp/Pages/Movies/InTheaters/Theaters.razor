@@ -1,21 +1,21 @@
-﻿@page "/"
-@inject User user
+﻿@page "/theaters"
 @inject HttpClient http
-<a id="topHome"></a>
+@inject User user
 
+<a id="theater"></a>
 <TemplatePage Movie_Page="@moviePage" />
-
 @if (moviePage.Results.Count > 0)
 {
     <div class="col w-100 m-0 text-center">
-        <a class="btn btn-outline-success" href="#topHome" @onclick="Previous">Anterior</a>
+        <a class="btn btn-outline-success" href="/theaters/#theater" @onclick="Previous">Anterior</a>
         <input type="number" style="width:50px" @onkeyup="Enter" @bind="numberPage" />
         <label>/500</label>
-        <a class="btn btn-outline-success" href="#topHome" @onclick="Next">Siguiente</a>
+        <a class="btn btn-outline-success" href="/theaters/#theater" @onclick="Next">Siguiente</a>
     </div>
 }
 
 @code {
+    @code {
     MoviePageBLL moviePageBLL;
     MoviePage moviePage;
     int numberPage;
@@ -26,7 +26,7 @@
         moviePage = new();
         moviePageBLL = new MoviePageBLL(http, user.Language);
 
-        moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+        moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
 
     }
 
@@ -35,7 +35,7 @@
         if ((numberPage - 1) >= 1)
         {
             numberPage--;
-            moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+            moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
         }
 
     }
@@ -45,7 +45,7 @@
         if ((numberPage + 1) <= 500)
         {
             numberPage++;
-            moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+            moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
         }
 
     }
@@ -55,7 +55,7 @@
         {
             if (numberPage > 0 && numberPage <= 500)
             {
-                moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+                moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
                 StateHasChanged();
             }
 
@@ -65,3 +65,4 @@
     }
 }
 
+}

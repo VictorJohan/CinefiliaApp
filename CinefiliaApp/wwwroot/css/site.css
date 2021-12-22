@@ -125,13 +125,13 @@ a, .btn-link {
         }
 }
 
+
 .poster{
     width: 220px;
     height:320px;
-    border: solid;
     border-radius:5px;
+    
 }
-
 .title {
     font-size: 90%;
     text-align: center;
@@ -139,3 +139,11 @@ a, .btn-link {
     height: 50px;
    
 }
+
+.img {
+    width: 220px;
+    height: 320px;
+    border-radius: 5px;
+}
+
+ 

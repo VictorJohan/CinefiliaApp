@@ -1,17 +1,18 @@
-﻿@page "/"
+﻿@page "/upcoming"
+
 @inject User user
 @inject HttpClient http
-<a id="topHome"></a>
+<a id="upcoming"></a>
 
 <TemplatePage Movie_Page="@moviePage" />
 
 @if (moviePage.Results.Count > 0)
 {
     <div class="col w-100 m-0 text-center">
-        <a class="btn btn-outline-success" href="#topHome" @onclick="Previous">Anterior</a>
+        <a class="btn btn-outline-success" href="/upcoming/#upcoming" @onclick="Previous">Anterior</a>
         <input type="number" style="width:50px" @onkeyup="Enter" @bind="numberPage" />
         <label>/500</label>
-        <a class="btn btn-outline-success" href="#topHome" @onclick="Next">Siguiente</a>
+        <a class="btn btn-outline-success" href="/upcoming/#upcoming" @onclick="Next">Siguiente</a>
     </div>
 }
 
@@ -26,7 +27,7 @@
         moviePage = new();
         moviePageBLL = new MoviePageBLL(http, user.Language);
 
-        moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+        moviePage = await moviePageBLL.GetMoviesUpComingByPage(numberPage);
 
     }
 
@@ -35,7 +36,7 @@
         if ((numberPage - 1) >= 1)
         {
             numberPage--;
-            moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+            moviePage = await moviePageBLL.GetMoviesUpComingByPage(numberPage);
         }
 
     }
@@ -45,7 +46,7 @@
         if ((numberPage + 1) <= 500)
         {
             numberPage++;
-            moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+            moviePage = await moviePageBLL.GetMoviesUpComingByPage(numberPage);
         }
 
     }
@@ -55,7 +56,7 @@
         {
             if (numberPage > 0 && numberPage <= 500)
             {
-                moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
+                moviePage = await moviePageBLL.GetMoviesUpComingByPage(numberPage);
                 StateHasChanged();
             }
 
@@ -64,4 +65,3 @@
 
     }
 }
-

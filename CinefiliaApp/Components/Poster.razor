@@ -1,5 +1,16 @@
-﻿
+﻿<div class="p-0 m-1" style="cursor:pointer; display:inline-block">
+    <div class="poster">
+        <img class="poster" src="http://image.tmdb.org/t/p/w500/@Image" />
+    </div>
+    <div class="title mt-1">
+        <label>@Title</label>
+    </div>
+</div>
 
 @code {
+    [Parameter]
+    public string Title { get; set; }
 
+    [Parameter]
+    public string Image { get; set; }
 }
