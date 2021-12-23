@@ -1,7 +1,7 @@
 ﻿@page "/upcoming"
-
 @inject User user
 @inject HttpClient http
+@inject NavigationManager Nav
 <a id="upcoming"></a>
 
 <TemplatePage Movie_Page="@moviePage" />
@@ -58,6 +58,7 @@
             {
                 moviePage = await moviePageBLL.GetMoviesUpComingByPage(numberPage);
                 StateHasChanged();
+                Nav.NavigateTo("/upcoming/#upcoming");
             }
 
 

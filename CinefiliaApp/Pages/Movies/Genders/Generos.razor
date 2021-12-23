@@ -1,6 +1,7 @@
 ﻿@page "/generos"
 @inject User user
 @inject HttpClient http
+@inject NavigationManager Nav
 <a id="genre"></a>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     @foreach (var genres in listGenres)
@@ -39,7 +40,7 @@
     private int numberPage;
     protected override async Task OnInitializedAsync()
     {
-       
+
         listGenres = new();
         moviePage = new();
         moviePageBLL = new MoviePageBLL(http, user.Language);
@@ -66,7 +67,7 @@
 
     }
 
-     private async Task Next()
+    private async Task Next()
     {
         if((numberPage + 1) <= 500)
         {
@@ -76,7 +77,7 @@
 
     }
 
-     public async Task Enter(KeyboardEventArgs e)
+    public async Task Enter(KeyboardEventArgs e)
     {
         if (e.Code == "Enter" || e.Code == "NumpadEnter")
         {
@@ -84,6 +85,7 @@
             {
                 moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
                 StateHasChanged();
+                Nav.NavigateTo("/generos/#genre");
             }
 
 

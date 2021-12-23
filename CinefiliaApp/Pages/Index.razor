@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject User user
 @inject HttpClient http
+@inject NavigationManager Nav
 <a id="topHome"></a>
 
 <TemplatePage Movie_Page="@moviePage" />
@@ -57,6 +58,7 @@
             {
                 moviePage = await moviePageBLL.GetMoviesByPage(numberPage);
                 StateHasChanged();
+                Nav.NavigateTo("#topHome");
             }
 
 

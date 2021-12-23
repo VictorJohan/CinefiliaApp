@@ -1,6 +1,7 @@
 ﻿@page "/theaters"
 @inject HttpClient http
 @inject User user
+@inject NavigationManager Nav
 
 <a id="theater"></a>
 <TemplatePage Movie_Page="@moviePage" />
@@ -16,48 +17,49 @@
 
 @code {
     @code {
-    MoviePageBLL moviePageBLL;
-    MoviePage moviePage;
-    int numberPage;
+        MoviePageBLL moviePageBLL;
+        MoviePage moviePage;
+        int numberPage;
 
-    protected override async Task OnInitializedAsync()
-    {
-        numberPage = 1;
-        moviePage = new();
-        moviePageBLL = new MoviePageBLL(http, user.Language);
-
-        moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
-
-    }
-
-    private async Task Previous()
-    {
-        if ((numberPage - 1) >= 1)
+        protected override async Task OnInitializedAsync()
         {
-            numberPage--;
+            numberPage = 1;
+            moviePage = new();
+            moviePageBLL = new MoviePageBLL(http, user.Language);
+
             moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
+
         }
 
-    }
-
-    private async Task Next()
-    {
-        if ((numberPage + 1) <= 500)
+        private async Task Previous()
         {
-            numberPage++;
-            moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
-        }
-
-    }
-    public async Task Enter(KeyboardEventArgs e)
-    {
-        if (e.Code == "Enter" || e.Code == "NumpadEnter")
-        {
-            if (numberPage > 0 && numberPage <= 500)
+            if ((numberPage - 1) >= 1)
             {
+                numberPage--;
                 moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
-                StateHasChanged();
             }
+
+        }
+
+        private async Task Next()
+        {
+            if ((numberPage + 1) <= 500)
+            {
+                numberPage++;
+                moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
+            }
+
+        }
+        public async Task Enter(KeyboardEventArgs e)
+        {
+            if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            {
+                if (numberPage > 0 && numberPage <= 500)
+                {
+                    moviePage = await moviePageBLL.GetMoviesInTheathersByPage(numberPage);
+                    StateHasChanged();
+                    Nav.NavigateTo("/theaters/#theater");
+                }
 
 
         }
