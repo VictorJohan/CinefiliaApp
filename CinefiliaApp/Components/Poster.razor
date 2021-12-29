@@ -1,4 +1,4 @@
-﻿<div class="p-0 m-1" style="cursor:pointer; display:inline-block">
+﻿<div class="p-0 m-1" style="cursor:pointer; display:inline-block" @onclick="() => {Show = true;}">
     <div class="poster">
         <img class="poster" src="http://image.tmdb.org/t/p/w500/@Image" />
     </div>
@@ -7,10 +7,27 @@
     </div>
 </div>
 
+ @if (Show)
+{
+    <MovieSheet Text="@Title" OnClose="Close" />
+}
+
 @code {
     [Parameter]
     public string Title { get; set; }
 
     [Parameter]
     public string Image { get; set; }
+
+    public bool Show { get; set; }
+
+    private void Close(bool refrescar)
+    {
+        if (refrescar)
+        {
+
+        }
+
+        Show = false;
+    }
 }
