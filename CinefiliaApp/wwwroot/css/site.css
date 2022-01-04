@@ -53,7 +53,7 @@ a, .btn-link {
 
 /* Add a black background color to the top navigation */
 .topnav {
-    background-color: #176DF4;
+    background-color: red;
     padding-left: 2%;
     width: 100%;
     overflow: hidden;
