@@ -3,18 +3,20 @@
         <img class="poster" src="http://image.tmdb.org/t/p/w500/@Image" />
     </div>
     <div class="title mt-1">
-        <label>@Title</label>
+        <label>@Movie.OriginalTitle</label>
     </div>
 </div>
 
  @if (Show)
 {
-    <MovieSheet Text="@Title" OnClose="Close" />
+    <MovieSheet Movie="@Movie" OnClose="Close" />
 }
 
 @code {
     [Parameter]
     public string Title { get; set; }
+    [Parameter]
+    public Movie Movie { get; set; }
 
     [Parameter]
     public string Image { get; set; }

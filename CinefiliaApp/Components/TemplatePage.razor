@@ -1,7 +1,7 @@
 ﻿<div class="m-0 p-5">
     @foreach(var movie in Movie_Page.Results)
     {
-        <CinefiliaApp.Components.Poster Title="@movie.OriginalTitle" Image="@movie.Poster_path"/>
+        <CinefiliaApp.Components.Poster Movie="@movie" Image="@movie.Poster_path"/>
         
     }
 </div>
